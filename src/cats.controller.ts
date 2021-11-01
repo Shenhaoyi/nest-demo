@@ -1,14 +1,32 @@
 /* cats.controller.ts */
 
-import { Controller, Get, Req, Post, HttpCode, Redirect, Param } from '@nestjs/common';
+import { Controller, Get, Req, Post, HttpCode, Redirect, Param, Body } from '@nestjs/common';
 import { Request } from 'express';
+import { CatsService } from './cats.service';
+import { CreateCatDto } from './dto/create-cat.dto';
+import { Cat } from './interface/cat.interface';
 
 @Controller('cats')
 export class CatsController {
+
+  constructor(private catsService: CatsService) {}
+
   @Post()
-  create(): string {
-    return 'This action adds a new cat';
+  async create(@Body() createCatDto: CreateCatDto) {
+    this.catsService.create(createCatDto);
   }
+
+  // @Post()
+  // create(): string {
+  //   return 'This action adds a new cat';
+  // }
+
+  @Get()
+  async findAll(): Promise<Cat[]> {
+    return this.catsService.findAll();
+  }
+
+  /***************** control 基本内容 ********************/
   // 0 最简单情况
   // @Get()
   // findAll(): string {
@@ -31,9 +49,10 @@ export class CatsController {
   //     statusCode: 301
   //   }
   // }
-  
-  @Get(':id')
-  findAll(@Param('id') id: string): string {
-    return id;
-  }
+
+  // 路由参数
+  // @Get(':id')
+  // findAll(@Param('id') id: string): string {
+  //   return id;
+  // }
 }
