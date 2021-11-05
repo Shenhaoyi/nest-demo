@@ -1,10 +1,11 @@
 /* cats.controller.ts */
 
-import { Controller, Get, Req, Post, HttpCode, Redirect, Param, Body } from '@nestjs/common';
-import { Request } from 'express';
+import { Controller, Get, Req, Post, HttpCode, Redirect, Param, Body, Res, HttpException, HttpStatus, Header } from '@nestjs/common';
+import { Request, Response } from 'express';
 import { CatsService } from './cats.service';
 import { CreateCatDto } from './dto/create-cat.dto';
 import { Cat } from './interface/cat.interface';
+import * as fs from 'fs';
 
 @Controller('cats')
 export class CatsController {
@@ -25,6 +26,36 @@ export class CatsController {
   async findAll(): Promise<Cat[]> {
     return this.catsService.findAll();
   }
+
+  // @Get(':file')
+  // async xxx(@Res() response: Response, @Req() request: Request, @Param() params): Promise<any> {
+  //   const { file } = params;
+  //   console.log('下载文件：', file);
+  //   const filePath = `${process.cwd()}/${file}`;
+  //   response.header('content-disposition', `attachment; filename = "${file}"`);
+  //   response.download(filePath);
+  // }
+
+  @Get('download')
+  // @Header('Transfer-Encoding', 'chunked')
+  // @Header('Content-Type', 'application/octet-stream')
+  async download(@Res() response: Response, @Req() request: Request): Promise<any> {
+    console.log('request:', request);
+    console.log('下载文件');
+    // const filePath = `${process.cwd()}/test.csv`;
+    // const filePath = `${process.cwd()}/image.png`;
+    const filePath = `${process.cwd()}/large.csv`;
+    response.download(filePath);
+    // fs.createReadStream(filePath).pipe(response);
+    // response.download(filePath, 'xx', (err) => {
+    //   if (!err) {
+    //     return;
+    //   }
+    //   console.log('error')
+    //   throw new HttpException('NOT_FOUND', HttpStatus.NOT_FOUND);
+    // })
+  }
+
 
   /***************** control 基本内容 ********************/
   // 0 最简单情况
