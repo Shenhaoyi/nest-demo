@@ -10,7 +10,7 @@ import * as fs from 'fs';
 @Controller('cats')
 export class CatsController {
 
-  constructor(private catsService: CatsService) {}
+  constructor(private catsService: CatsService) { }
 
   @Post()
   async create(@Body() createCatDto: CreateCatDto) {
@@ -27,6 +27,16 @@ export class CatsController {
     return this.catsService.findAll();
   }
 
+  @Get('test')
+  @Header('Content-Type', 'application/octet-stream')
+  async test(): Promise<any> {
+    // 测试 返回内容不是用于下载的情况
+    return {
+      code: 199999,
+      message: '文件过大，不支持下载',
+    }
+  }
+
   // @Get(':file')
   // async xxx(@Res() response: Response, @Req() request: Request, @Param() params): Promise<any> {
   //   const { file } = params;
@@ -38,13 +48,30 @@ export class CatsController {
 
   @Get('download')
   // @Header('Transfer-Encoding', 'chunked')
-  // @Header('Content-Type', 'application/octet-stream')
+  @Header('Content-Type', 'application/octet-stream')
+  // @Header('content-disposition', 'attachment;filename=' + encodeURI('什么.png')) // 下载
+  // @Header('content-disposition', 'inline') // 打开
+
+  // @Header('filename', encodeURI('什么.png'))
+  // @Header('Content-Type', 'video/mp4')
+  // @Header('Content-Type', 'text/plain')
+  // @Header('Content-Type', 'application/vnd.openxmlformats-officedocument.presentationml.presentation') // ppt
+  // @Header('Content-Type', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document') // word
+  // @Header('Content-Type', 'image/png')
+  // @Header('Content-Type', 'application/vnd.ms-excel')
   async download(@Res() response: Response, @Req() request: Request): Promise<any> {
-    console.log('request:', request);
+    // console.log('request:', request);
     console.log('下载文件');
+    // const filePath = `${process.cwd()}/pdf.pdf`;
     // const filePath = `${process.cwd()}/test.csv`;
-    // const filePath = `${process.cwd()}/image.png`;
-    const filePath = `${process.cwd()}/large.csv`;
+    const filePath = `${process.cwd()}/image.png`;
+    // const filePath = `${process.cwd()}/large.csv`;
+    // const filePath = `${process.cwd()}/word.docx`;
+    // const filePath = `${process.cwd()}/dot-git-slash.pptx`;
+    // const filePath = `${process.cwd()}/radio.mp4`;
+    // response.sendFile(filePath);
+    // return 'download'
+
     response.download(filePath);
     // fs.createReadStream(filePath).pipe(response);
     // response.download(filePath, 'xx', (err) => {

@@ -28,7 +28,7 @@ export class UsersController {
    * @returns {Promise<ExpressResponse>} Returns success response entity.
    */
   @Get("export-csv")
-  @Header('content-disposition', 'attachment; filename = "test.csv"')
+  // @Header('content-disposition', 'attachment; filename = "test.csv"')
   async export(@Response() res: ExpressResponse): Promise<ExpressResponse> {
     const fileName = 'test.csv'
     return await this.usersService.getExportedUserCSV(fileName).then((csvData) => {
