@@ -51,7 +51,7 @@ export class UsersService {
    * @returns {Promise<string>}
    */
   async getExportedUserCSV(filename: string): Promise<string> {
-    const filePath = `${process.cwd()}/${filename}`;
+    const filePath = `${process.cwd()}public/${filename}`;
     if (!checkIfFileOrDirectoryExists(filePath)) {
       throw new NotFoundException('Users export not found.');
     }
