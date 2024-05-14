@@ -1,11 +1,11 @@
 // This file should exist in `src/models/users`
-import { parse } from "json2csv";
-import { Injectable, NotFoundException } from "@nestjs/common";
+// import { parse } from 'json2csv';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import {
   getFile,
-  createFile,
+  // createFile,
   checkIfFileOrDirectoryExists,
-} from "../../helper/storage.helper";
+} from '../../helper/storage.helper';
 
 /**
  * Service dealing with User based operations.
@@ -14,8 +14,6 @@ import {
  */
 @Injectable()
 export class UsersService {
-
-
   /**
    * Creates a CSV file with users data
    *

@@ -1,16 +1,31 @@
 /* cats.controller.ts */
 
-import { Controller, Get, Req, Post, HttpCode, Redirect, Param, Body, Res, HttpException, HttpStatus, Header } from '@nestjs/common';
-import { Request, Response } from 'express';
+import {
+  Controller,
+  Get,
+  // Req,
+  Post,
+  // HttpCode,
+  // Redirect,
+  // Param,
+  Body,
+  Res,
+  // HttpException,
+  // HttpStatus,
+  Header,
+} from '@nestjs/common';
+import {
+  // Request,
+  Response,
+} from 'express';
 import { CatsService } from './cats.service';
 import { CreateCatDto } from './dto/create-cat.dto';
 import { Cat } from './interface/cat.interface';
-import * as fs from 'fs';
+// import * as fs from 'fs';
 
 @Controller('cats')
 export class CatsController {
-
-  constructor(private catsService: CatsService) { }
+  constructor(private catsService: CatsService) {}
 
   @Post()
   async create(@Body() createCatDto: CreateCatDto) {
@@ -34,7 +49,7 @@ export class CatsController {
     return {
       code: 199999,
       message: '文件过大，不支持下载',
-    }
+    };
   }
 
   // @Get(':file')
@@ -59,7 +74,10 @@ export class CatsController {
   // @Header('Content-Type', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document') // word
   // @Header('Content-Type', 'image/png')
   // @Header('Content-Type', 'application/vnd.ms-excel')
-  async download(@Res() response: Response, @Req() request: Request): Promise<any> {
+  async download(
+    @Res() response: Response,
+    // @Req() request: Request,
+  ): Promise<any> {
     // console.log('request:', request);
     console.log('下载文件');
     // const filePath = `${process.cwd()}/pdf.pdf`;
@@ -83,7 +101,6 @@ export class CatsController {
     // })
   }
 
-
   /***************** control 基本内容 ********************/
   // 0 最简单情况
   // @Get()
@@ -98,7 +115,7 @@ export class CatsController {
   //   return String(request)
   // }
 
-  // 2 返回重定向对象，会覆盖装饰器中内容=》作用是可以动态重定向 
+  // 2 返回重定向对象，会覆盖装饰器中内容=》作用是可以动态重定向
   // @Get()
   // @Redirect('https://nestjs.com', 301) // 重定向
   // findAll(@Req() request: Request) {
