@@ -1,0 +1,61 @@
+<!-- 访问地址 http://localhost:3000/public/person.html -->
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Person</title>
+    <script src="https://unpkg.com/axios@0.24.0/dist/axios.min.js"></script>
+    <script src="https://unpkg.com/qs@6.10.2/dist/qs.js"></script>
+  </head>
+  <body>
+    <div>
+      <label>选择文件</label>
+      <input type="file" id="fileInput" />
+      <button id="uploadButton">Upload</button>
+    </div>
+    <script>
+      async function urlParam() {
+        const res = await axios.get('/person/1');
+        console.log(res);
+      }
+      const person = {
+        name: '沈',
+        age: 29,
+      };
+      async function query() {
+        const res = await axios.get('/person/find', {
+          params: person,
+        });
+        // axios 会自动 encode：http://localhost:3000/person/find?name=%E6%B2%88&age=29
+        console.log(res);
+      }
+      async function formUrlEncoded() {
+        // console.log(Qs.stringify(person)); // name=%E6%B2%88&age=29
+        const res = await axios.post('/person', Qs.stringify(person), {
+          headers: { 'content-type': 'application/x-www-form-urlencoded' },
+        });
+        console.log(res);
+      }
+      async function json() {
+        const res = await axios.post('/person', person);
+        console.log(res);
+      }
+      async function formData() {
+        const fileInput = document.querySelector('#fileInput');
+        const data = new FormData();
+        data.set('name', person.name);
+        data.set('age', person.age);
+        data.set('file1', fileInput.files[0]);
+        const res = await axios.post('/person/upload', data, {
+          headers: { 'content-type': 'multipart/form-data' },
+        });
+        console.log(res);
+      }
+      // urlParam();
+      // query()
+      // formUrlEncoded();
+      // json();
+      document.querySelector('#uploadButton').onclick = formData
+    </script>
+  </body>
+</html>
