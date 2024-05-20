@@ -9,9 +9,10 @@ import { AppService } from './app.service';
 import { CatsModule } from './modules/cats/cats.module';
 import { LoggerMiddleware } from './common/middleware/logger.middleware';
 import { DownloadModule } from './modules/download/download.module';
+import { PersonModule } from './modules/person/person.module';
 
 @Module({
-  imports: [CatsModule, DownloadModule],
+  imports: [CatsModule, DownloadModule, PersonModule],
   controllers: [AppController],
   providers: [AppService],
 })
